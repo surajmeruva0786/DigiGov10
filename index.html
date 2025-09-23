@@ -375,7 +375,7 @@
             </div>
             
             <div class="status-section">
-                <h3 data-en="Application Status" data-hi="आवेदन की स्थिति">Application Status</h3>
+                <h3 data-en="Complaint Status" data-hi="शिकायत की स्थिति">Complaint Status</h3>
                 <div id="status-list" class="status-list">
                     <!-- Status items will be populated by JavaScript -->
                 </div>
@@ -394,7 +394,11 @@
                 <button class="language-toggle" onclick="toggleLanguage()">
                     <span>हिंदी</span>
                 </button>
-                <div class="profile-icon">👨‍💼</div>
+                <button onclick="toggleVoiceAssistant()">
+                    <span class="voice-icon">🎤</span>
+                    <span data-en="VOICE ASSIST" data-hi="आवाज़ सहायता">VOICE ASSIST</span>
+                </button>
+                <div class="profile-icon">👤</div>
             </div>
         </header>
         
@@ -446,12 +450,11 @@
                         <option value="roads" data-en="Roads & Infrastructure" data-hi="सड़क और बुनियादी ढांचा">सड़क और बुनियादी ढांचा</option>
                         <option value="health" data-en="Health Services" data-hi="स्वास्थ्य सेवाएं">स्वास्थ्य सेवाएं</option>
                         <option value="education" data-en="Education" data-hi="शिक्षा">शिक्षा</option>
-                        <option value="waste" data-en="Waste Management" data-hi="कचरा प्रबंधन">कचरा प्रबंधन</option>
                     </select>
                 </div>
                 <div class="input-group">
                     <label data-en="Email" data-hi="ईमेल">Email</label>
-                    <input type="email" id="official-email" data-placeholder-en="Enter email" data-placeholder-hi="ईमेल दर्ज करें" placeholder="Enter email">
+                    <input type="email" id="official-email" data-placeholder-en="Enter email address" data-placeholder-hi="ईमेल पता दर्ज करें" placeholder="Enter email address">
                 </div>
                 <div class="input-group">
                     <label data-en="Password" data-hi="पासवर्ड">Password</label>
@@ -469,46 +472,40 @@
         <header class="gov-header">
             <div class="header-left">
                 <h1 class="brand-name">GovConnect</h1>
-                <span class="official-indicator">अधिकारी डैशबोर्ड</span>
+                <span class="official-badge" data-en="Official Panel" data-hi="अधिकारी पैनल">Official Panel</span>
             </div>
             <div class="header-right">
                 <button class="language-toggle" onclick="toggleLanguage()">
                     <span>हिंदी</span>
                 </button>
-                <button class="logout-btn" onclick="logoutOfficial()">लॉग आउट</button>
+                <button class="logout-btn" onclick="logoutOfficial()" data-en="LOGOUT" data-hi="लॉग आउट">LOGOUT</button>
                 <div class="profile-icon">👨‍💼</div>
             </div>
         </header>
         
+        <div class="dashboard-welcome">
+            <h2 data-en="Welcome to Official Dashboard" data-hi="अधिकारी डैशबोर्ड में आपका स्वागत है">Welcome to Official Dashboard</h2>
+            <p id="official-info" data-en="Managing complaints and citizen requests" data-hi="शिकायतों और नागरिक अनुरोधों का प्रबंधन">Managing complaints and citizen requests</p>
+        </div>
+        
         <div class="dashboard-content">
             <div class="dashboard-stats">
-                <div class="stat-card">
-                    <h3>कुल शिकायतें</h3>
-                    <div class="stat-number" id="total-complaints">0</div>
+                <div class="stat-card pending">
+                    <h3 data-en="Pending" data-hi="लंबित">Pending</h3>
+                    <p class="stat-number" id="pending-count">0</p>
                 </div>
-                <div class="stat-card">
-                    <h3>लंबित शिकायतें</h3>
-                    <div class="stat-number" id="pending-complaints">0</div>
+                <div class="stat-card in-progress">
+                    <h3 data-en="In Progress" data-hi="प्रगति में">In Progress</h3>
+                    <p class="stat-number" id="in-progress-count">0</p>
                 </div>
-                <div class="stat-card">
-                    <h3>हल की गई</h3>
-                    <div class="stat-number" id="resolved-complaints">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>प्रगति में</h3>
-                    <div class="stat-number" id="inprogress-complaints">0</div>
+                <div class="stat-card resolved">
+                    <h3 data-en="Resolved" data-hi="हल किया गया">Resolved</h3>
+                    <p class="stat-number" id="resolved-count">0</p>
                 </div>
             </div>
             
-            <div class="complaints-management">
-                <h3>शिकायत प्रबंधन</h3>
-                <div class="complaint-filters">
-                    <button class="filter-btn active" onclick="filterComplaints('all')">सभी</button>
-                    <button class="filter-btn" onclick="filterComplaints('pending')">लंबित</button>
-                    <button class="filter-btn" onclick="filterComplaints('in-progress')">प्रगति में</button>
-                    <button class="filter-btn" onclick="filterComplaints('resolved')">हल की गई</button>
-                </div>
-                
+            <div class="complaints-list-container">
+                <h3 data-en="Complaints Management" data-hi="शिकायत प्रबंधन">Complaints Management</h3>
                 <div id="official-complaints-list" class="official-complaints-list">
                     <!-- Complaints will be populated by JavaScript -->
                 </div>
@@ -524,13 +521,13 @@
                 <div class="voice-circle"></div>
                 <div class="voice-circle"></div>
             </div>
-            <p>सुन रहा हूँ...</p>
+            <p data-en="Listening..." data-hi="सुन रहा हूँ...">Listening...</p>
         </div>
     </div>
 
     <!-- Message Toast -->
     <div id="message-toast" class="message-toast">
-        <span id="toast-message"></span>
+        <span id="message-text"></span>
     </div>
 
     <script src="script.js"></script>
