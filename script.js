@@ -20,18 +20,8 @@ function initializeApp() {
     currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
     updateLanguage();
     
-    // Show loading screen for 2 seconds, then show home screen in same place
-    setTimeout(() => {
-        const loadingScreen = document.getElementById('loading-screen');
-        const homeScreen = document.getElementById('home-screen');
-        
-        // Hide loading screen and show home screen
-        loadingScreen.classList.remove('active');
-        homeScreen.classList.add('active');
-        
-        // Scroll to top to ensure home screen is visible
-        window.scrollTo(0, 0);
-    }, 2000);
+    // Show home screen immediately
+    document.getElementById('home-screen').classList.add('active');
     
     // Load sample schemes data
     loadSchemes();
