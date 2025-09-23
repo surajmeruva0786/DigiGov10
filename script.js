@@ -749,10 +749,13 @@ function updateDashboardStats() {
     const resolvedComplaints = complaints.filter(c => c.status === 'resolved').length;
     const inProgressComplaints = complaints.filter(c => c.status === 'in-progress').length;
     
-    document.getElementById('total-complaints').textContent = totalComplaints;
-    document.getElementById('pending-complaints').textContent = pendingComplaints;
-    document.getElementById('resolved-complaints').textContent = resolvedComplaints;
-    document.getElementById('inprogress-complaints').textContent = inProgressComplaints;
+    const pendingCountElement = document.getElementById('pending-count');
+    const inProgressCountElement = document.getElementById('in-progress-count');
+    const resolvedCountElement = document.getElementById('resolved-count');
+    
+    if (pendingCountElement) pendingCountElement.textContent = pendingComplaints;
+    if (inProgressCountElement) inProgressCountElement.textContent = inProgressComplaints;
+    if (resolvedCountElement) resolvedCountElement.textContent = resolvedComplaints;
 }
 
 function loadOfficialComplaints() {
@@ -763,21 +766,23 @@ function loadOfficialComplaints() {
     
     complaints.forEach(complaint => {
         const complaintItem = document.createElement('div');
-        complaintItem.className = 'official-complaint-item';
+        complaintItem.className = 'complaint-item';
         complaintItem.innerHTML = `
             <div class="complaint-header">
-                <span class="complaint-id">${complaint.id}</span>
-                <span class="complaint-date">${new Date(complaint.date).toLocaleDateString('hi-IN')}</span>
+                <div class="complaint-info">
+                    <h4>${complaint.subject}</h4>
+                    <div class="complaint-id">${complaint.id}</div>
+                </div>
+                <span class="status-badge ${complaint.status}">${getStatusText(complaint.status)}</span>
             </div>
-            <h4>${complaint.subject}</h4>
-            <p>${complaint.description}</p>
-            <div class="complaint-footer">
-                <span class="complaint-sector">${complaint.sector}</span>
-                <select onchange="updateComplaintStatus('${complaint.id}', this.value)" class="status-select">
+            <div class="complaint-description">${complaint.description}</div>
+            <div class="complaint-actions">
+                <select class="status-select" onchange="updateComplaintStatus('${complaint.id}', this.value)">
                     <option value="pending" ${complaint.status === 'pending' ? 'selected' : ''}>लंबित</option>
                     <option value="in-progress" ${complaint.status === 'in-progress' ? 'selected' : ''}>प्रगति में</option>
                     <option value="resolved" ${complaint.status === 'resolved' ? 'selected' : ''}>हल किया गया</option>
                 </select>
+                <button class="update-btn" onclick="updateComplaintStatus('${complaint.id}', document.querySelector('select[onchange*=\\\'${complaint.id}\\\']').value)">Update</button>
             </div>
         `;
         complaintsList.appendChild(complaintItem);
@@ -788,11 +793,12 @@ function filterComplaints(status) {
     const complaintsList = document.getElementById('official-complaints-list');
     if (!complaintsList) return;
     
-    const complaintItems = complaintsList.querySelectorAll('.official-complaint-item');
+    const complaintItems = complaintsList.querySelectorAll('.complaint-item');
     
     complaintItems.forEach(item => {
-        const select = item.querySelector('.status-select');
-        const itemStatus = select.value;
+        const statusBadge = item.querySelector('.status-badge');
+        const itemStatus = statusBadge.classList.contains('pending') ? 'pending' : 
+                         statusBadge.classList.contains('in-progress') ? 'in-progress' : 'resolved';
         
         if (status === 'all' || itemStatus === status) {
             item.style.display = 'block';
@@ -803,7 +809,9 @@ function filterComplaints(status) {
     
     // Update active filter button
     document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
+    if (event && event.target) {
+        event.target.classList.add('active');
+    }
 }
 
 function updateComplaintStatus(complaintId, newStatus) {
@@ -812,6 +820,7 @@ function updateComplaintStatus(complaintId, newStatus) {
         complaints[complaintIndex].status = newStatus;
         localStorage.setItem('complaints', JSON.stringify(complaints));
         updateDashboardStats();
+        loadOfficialComplaints(); // Reload to update the UI
         showMessage('शिकायत की स्थिति अपडेट की गई', 'success');
     }
 }
@@ -819,11 +828,12 @@ function updateComplaintStatus(complaintId, newStatus) {
 // Message System
 function showMessage(message, type = 'info') {
     const toast = document.getElementById('message-toast');
-    const messageElement = document.getElementById('toast-message');
+    const messageElement = document.getElementById('message-text');
+    
+    if (!toast || !messageElement) return;
     
     messageElement.textContent = message;
-    toast.className = `message-toast ${type}`;
-    toast.classList.add('show');
+    toast.className = `message-toast ${type} show`;
     
     setTimeout(() => {
         toast.classList.remove('show');
