@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GovConnect - Government Service Portal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="screen active">
+        <div class="loading-content">
+            <div class="logo">GovConnect</div>
+            <h1 data-en="Government Service Portal" data-hi="सरकारी सेवा पोर्टल">Government Service Portal</h1>
+            <p data-en="Connecting Citizens with Government" data-hi="नागरिकों को सरकार से जोड़ना">Connecting Citizens with Government</p>
+            <div class="loader"></div>
+        </div>
+    </div>
+
+    <!-- Home Screen -->
+    <div id="home-screen" class="screen">
+        <header class="gov-header">
+            <div class="header-left">
+                <h1 class="brand-name">GovConnect</h1>
+            </div>
+            <div class="header-right">
+                <button class="language-toggle" onclick="toggleLanguage()">
+                    <span id="lang-text">हिंदी</span>
+                </button>
+                <button id="voice-assistant-btn" onclick="toggleVoiceAssistant()">
+                    <span class="voice-icon">🎤</span>
+                    <span data-en="VOICE ASSIST" data-hi="आवाज़ सहायता">VOICE ASSIST</span>
+                </button>
+                <div class="profile-icon">👤</div>
+            </div>
+        </header>
+        
+        <div class="welcome-section">
+            <h2 data-en="Welcome to GovConnect" data-hi="GovConnect में आपका स्वागत है">Welcome to GovConnect</h2>
+            <p data-en="Your gateway to government services" data-hi="सरकारी सेवाओं का आपका प्रवेश द्वार">Your gateway to government services</p>
+        </div>
+        
+        <div class="entry-blocks">
+            <button class="entry-block user-block" onclick="navigateTo('user-entry')">
+                <div class="block-icon">👤</div>
+                <h2 data-en="Citizen" data-hi="नागरिक">Citizen</h2>
+                <p data-en="Access Government Services" data-hi="सरकारी सेवाएं प्राप्त करें">Access Government Services</p>
+            </button>
+            
+            <button class="entry-block official-block" onclick="navigateTo('official-entry')">
+                <div class="block-icon">👨‍💼</div>
+                <h2 data-en="Government Official" data-hi="सरकारी अधिकारी">Government Official</h2>
+                <p data-en="Manage Citizens Requests" data-hi="नागरिक अनुरोधों का प्रबंधन करें">Manage Citizens Requests</p>
+            </button>
+        </div>
+    </div>
+
+    <!-- User Entry Screen -->
+    <div id="user-entry-screen" class="screen">
+        <header class="gov-header">
+            <div class="header-left">
+                <button class="back-btn" onclick="navigateTo('home')">←</button>
+                <h1 class="brand-name">GovConnect</h1>
+            </div>
+            <div class="header-right">
+                <button class="language-toggle" onclick="toggleLanguage()">
+                    <span>हिंदी</span>
+                </button>
+                <button onclick="toggleVoiceAssistant()">
+                    <span class="voice-icon">🎤</span>
+                    <span data-en="VOICE ASSIST" data-hi="आवाज़ सहायता">VOICE ASSIST</span>
+                </button>
+                <div class="profile-icon">👤</div>
+            </div>
+        </header>
+        
+        <div class="page-title">
+            <h2 data-en="User Login" data-hi="नागरिक प्रवेश">User Login</h2>
+        </div>
+        
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">
+                    <span data-en="LOGIN" data-hi="लॉगिन">LOGIN</span>
+                </button>
+                <button class="auth-tab" onclick="switchAuthTab('register')">
+                    <span data-en="REGISTER" data-hi="पंजीकरण">REGISTER</span>
+                </button>
+            </div>
+            
+            <!-- Login Form -->
+            <div id="login-form" class="auth-form active">
+                <div class="input-group">
+                    <label data-en="Mobile Number" data-hi="मोबाइल नंबर">Mobile Number</label>
+                    <input type="tel" id="login-phone" data-placeholder-en="10-digit mobile number" data-placeholder-hi="10 अंकों का मोबाइल नंबर" placeholder="10-digit mobile number">
+                </div>
+                <div class="input-group">
+                    <label data-en="Password or OTP" data-hi="पासवर्ड या OTP">Password or OTP</label>
+                    <input type="password" id="login-password" data-placeholder-en="Enter password" data-placeholder-hi="पासवर्ड दर्ज करें" placeholder="Enter password">
+                </div>
+                <button class="primary-btn" onclick="loginUser()">
+                    <span data-en="LOGIN" data-hi="लॉगिन करें">LOGIN</span>
+                </button>
+                <button class="secondary-btn" onclick="sendOTP()">
+                    <span data-en="SEND OTP" data-hi="OTP भेजें">SEND OTP</span>
+                </button>
+            </div>
+            
+            <!-- Registration Form -->
+            <div id="register-form" class="auth-form">
+                <div class="input-group">
+                    <label data-en="Aadhaar Number" data-hi="आधार नंबर">Aadhaar Number</label>
+                    <input type="text" id="aadhaar-number" data-placeholder-en="12-digit Aadhaar number" data-placeholder-hi="12 अंकों का आधार नंबर" placeholder="12-digit Aadhaar number">
+                </div>
+                <div class="input-group">
+                    <label data-en="Mobile Number" data-hi="मोबाइल नंबर">Mobile Number</label>
+                    <input type="tel" id="register-phone" data-placeholder-en="10-digit mobile number" data-placeholder-hi="10 अंकों का मोबाइल नंबर" placeholder="10-digit mobile number">
+                </div>
+                <div class="input-group">
+                    <label data-en="Email" data-hi="ईमेल">Email</label>
+                    <input type="email" id="register-email" data-placeholder-en="Email address" data-placeholder-hi="ईमेल पता" placeholder="Email address">
+                </div>
+                <div class="input-group">
+                    <label data-en="Full Address" data-hi="पूरा पता">Full Address</label>
+                    <textarea id="register-address" data-placeholder-en="Enter your complete address" data-placeholder-hi="पूरा पता दर्ज करें" placeholder="Enter your complete address"></textarea>
+                </div>
+                <div class="input-group">
+                    <label data-en="Password" data-hi="पासवर्ड">Password</label>
+                    <input type="password" id="register-password" data-placeholder-en="Create password" data-placeholder-hi="पासवर्ड बनाएं" placeholder="Create password">
+                </div>
+                <button class="primary-btn" onclick="registerUser()">
+                    <span data-en="REGISTER" data-hi="पंजीकरण करें">REGISTER</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Home Screen -->
+    <div id="user-home-screen" class="screen">
+        <header class="gov-header">
+            <div class="header-left">
+                <h1 class="brand-name">GovConnect</h1>
+            </div>
+            <div class="header-right">
+                <button class="language-toggle" onclick="toggleLanguage()">
+                    <span id="lang-text-home">हिंदी</span>
+                </button>
+                <button id="voice-assistant-btn-home" onclick="toggleVoiceAssistant()">
+                    <span class="voice-icon">🎤</span>
+                    <span data-en="VOICE ASSIST" data-hi="आवाज़ सहायता">VOICE ASSIST</span>
+                </button>
+                <button class="logout-btn" onclick="logoutUser()" data-en="LOGOUT" data-hi="लॉग आउट">LOGOUT</button>
+                <div class="profile-icon">👤</div>
+            </div>
+        </header>
+        
+        <div class="user-welcome">
+            <h2 data-en="Welcome back!" data-hi="वापस आपका स्वागत है!">Welcome back!</h2>
+            <p id="user-location" data-en="Location: " data-hi="स्थान: ">Location: Delhi, India</p>
+        </div>
+        
+        <!-- Feature Blocks Grid -->
+        <div class="main-features-grid">
+            <button class="main-feature-card schemes-card" onclick="navigateTo('schemes')">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/>
+                    </svg>
+                </div>
+                <h3 data-en="GOVT SCHEMES" data-hi="सरकारी योजनाएं">GOVT SCHEMES</h3>
+            </button>
+            
+            <button class="main-feature-card complaints-card" onclick="navigateTo('complaints')">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                </div>
+                <h3 data-en="COMPLAINTS" data-hi="शिकायतें">COMPLAINTS</h3>
+            </button>
+            
+            <button class="main-feature-card children-card" onclick="navigateTo('children')">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7z"/>
+                    </svg>
+                </div>
+                <h3 data-en="CHILDREN" data-hi="बच्चे">CHILDREN</h3>
+            </button>
+            
+            <button class="main-feature-card bills-card" onclick="navigateTo('bills')">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                    </svg>
+                </div>
+                <h3 data-en="BILL PAYMENTS" data-hi="बिल भुगतान">BILL PAYMENTS</h3>
+            </button>
+            
+            <button class="main-feature-card documents-card" onclick="navigateTo('documents')">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M10 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2h-8l-2-2z"/>
+                    </svg>
+                </div>
+                <h3 data-en="DOCUMENTS" data-hi="दस्तावेज़">DOCUMENTS</h3>
+            </button>
+        </div>
+    </div>
+
+    <!-- Government Schemes Screen -->
+    <div id="schemes-screen" class="screen">
+        <header class="screen-header">
+            <button class="back-btn" onclick="navigateTo('user-home')">←</button>
+            <h2 data-en="Government Schemes" data-hi="सरकारी योजनाएं">Government Schemes</h2>
+        </header>
+        
+        <div class="search-container">
+            <input type="text" id="scheme-search" data-placeholder-en="Search schemes..." data-placeholder-hi="योजना खोजें..." placeholder="Search schemes...">
+            <button class="voice-search-btn" onclick="startVoiceSearch('schemes')">🎤</button>
+        </div>
+        
+        <div class="scheme-categories">
+            <div class="category-tabs">
+                <button class="category-tab active" onclick="filterSchemes('all')" data-en="All" data-hi="सभी">All</button>
+                <button class="category-tab" onclick="filterSchemes('health')" data-en="Health" data-hi="स्वास्थ्य">Health</button>
+                <button class="category-tab" onclick="filterSchemes('education')" data-en="Education" data-hi="शिक्षा">Education</button>
+                <button class="category-tab" onclick="filterSchemes('finance')" data-en="Finance" data-hi="वित्त">Finance</button>
+                <button class="category-tab" onclick="filterSchemes('agriculture')" data-en="Agriculture" data-hi="कृषि">Agriculture</button>
+            </div>
+        </div>
+        
+        <div id="schemes-list" class="schemes-list">
+            <!-- Schemes will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Complaints Screen -->
+    <div id="complaints-screen" class="screen">
+        <header class="screen-header">
+            <button class="back-btn" onclick="navigateTo('user-home')">←</button>
+            <h2 data-en="File Complaint" data-hi="शिकायत दर्ज करें">File Complaint</h2>
+        </header>
+        
+        <div class="complaints-container">
+            <div class="complaint-form">
+                <div class="input-group">
+                    <label data-en="Subject" data-hi="विषय">Subject</label>
+                    <input type="text" id="complaint-subject" data-placeholder-en="Complaint subject" data-placeholder-hi="शिकायत का विषय" placeholder="Complaint subject">
+                </div>
+                
+                <div class="input-group">
+                    <label data-en="Select Department" data-hi="विभाग चुनें">Select Department</label>
+                    <select id="complaint-sector">
+                        <option value="" data-en="Select Department" data-hi="विभाग चुनें">विभाग चुनें</option>
+                        <option value="water" data-en="Water Supply" data-hi="जल आपूर्ति">जल आपूर्ति</option>
+                        <option value="electricity" data-en="Electricity" data-hi="बिजली">बिजली</option>
+                        <option value="roads" data-en="Roads & Infrastructure" data-hi="सड़क और बुनियादी ढांचा">सड़क और बुनियादी ढांचा</option>
+                        <option value="health" data-en="Health Services" data-hi="स्वास्थ्य सेवाएं">स्वास्थ्य सेवाएं</option>
+                        <option value="education" data-en="Education" data-hi="शिक्षा">शिक्षा</option>
+                        <option value="waste" data-en="Waste Management" data-hi="कचरा प्रबंधन">कचरा प्रबंधन</option>
+                        <option value="other" data-en="Other" data-hi="अन्य">अन्य</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label data-en="Description" data-hi="विवरण">Description</label>
+                    <textarea id="complaint-description" rows="6" data-placeholder-en="Describe your complaint here..." data-placeholder-hi="अपनी शिकायत यहाँ लिखें..." placeholder="अपनी शिकायत यहाँ लिखें..."></textarea>
+                    <button class="voice-input-btn" onclick="startVoiceInput('complaint')" data-en="🎤 Voice Input" data-hi="🎤 आवाज़ से लिखें">🎤 Voice Input</button>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="primary-btn" onclick="submitComplaint()" data-en="Submit Complaint" data-hi="शिकायत दर्ज करें">Submit Complaint</button>
+                </div>
+            </div>
+            
+            <div class="quick-complaints">
+                <h3 data-en="Quick Complaint" data-hi="त्वरित शिकायत">Quick Complaint</h3>
+                <textarea id="quick-complaint-text" data-placeholder-en="Enter your complaint quickly..." data-placeholder-hi="तुरंत शिकायत दर्ज करें..." placeholder="Enter your complaint quickly..."></textarea>
+                <button class="voice-input-btn" onclick="startVoiceInput('quick-complaint')" data-en="🎤 Voice Input" data-hi="🎤 आवाज़ से बोलें">🎤 Voice Input</button>
+                <button class="secondary-btn" onclick="submitQuickComplaint()" data-en="Submit Quick Complaint" data-hi="त्वरित शिकायत भेजें">Submit Quick Complaint</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Children Hub Screen -->
+    <div id="children-screen" class="screen">
+        <header class="screen-header">
+            <button class="back-btn" onclick="navigateTo('user-home')">←</button>
+            <h2 data-en="Children's Hub" data-hi="बच्चों का केंद्र">Children's Hub</h2>
+        </header>
+        
+        <div class="children-hub-grid">
+            <div class="hub-card">
+                <h3 data-en="Birth Certificate" data-hi="जन्म प्रमाण पत्र">Birth Certificate</h3>
+                <p data-en="Apply for birth certificate online" data-hi="ऑनलाइन जन्म प्रमाण पत्र के लिए आवेदन करें">Apply for birth certificate online</p>
+                <button class="card-btn" onclick="navigateTo('birth-certificate')" data-en="Apply" data-hi="आवेदन करें">Apply</button>
+            </div>
+            
+            <div class="hub-card">
+                <h3 data-en="School Admission" data-hi="स्कूल एडमिशन">School Admission</h3>
+                <p data-en="Information about government school admissions" data-hi="सरकारी स्कूलों में प्रवेश की जानकारी">Information about government school admissions</p>
+                <button class="card-btn" onclick="navigateTo('school-admission')" data-en="View Information" data-hi="जानकारी देखें">View Information</button>
+            </div>
+            
+            <div class="hub-card">
+                <h3 data-en="Vaccination Record" data-hi="टीकाकरण रिकॉर्ड">Vaccination Record</h3>
+                <p data-en="Children's vaccination information" data-hi="बच्चों के टीकाकरण की जानकारी">Children's vaccination information</p>
+                <button class="card-btn" onclick="navigateTo('vaccination')" data-en="View Records" data-hi="रिकॉर्ड देखें">View Records</button>
+            </div>
+            
+            <div class="hub-card">
+                <h3 data-en="Scholarships" data-hi="छात्रवृत्ति">Scholarships</h3>
+                <p data-en="Information about various scholarship schemes" data-hi="विभिन्न छात्रवृत्ति योजनाओं की जानकारी">Information about various scholarship schemes</p>
+                <button class="card-btn" onclick="navigateTo('scholarships')" data-en="View Schemes" data-hi="योजनाएं देखें">View Schemes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bills Payment Screen -->
+    <div id="bills-screen" class="screen">
+        <header class="screen-header">
+            <button class="back-btn" onclick="navigateTo('user-home')">←</button>
+            <h2 data-en="Bill Payments" data-hi="बिल भुगतान">Bill Payments</h2>
+        </header>
+        
+        <div class="bills-grid">
+            <div class="bill-card">
+                <div class="bill-icon">💡</div>
+                <h3 data-en="Electricity Bill" data-hi="बिजली का बिल">Electricity Bill</h3>
+                <button class="bill-btn" onclick="payBill('electricity')" data-en="Pay Now" data-hi="भुगतान करें">Pay Now</button>
+            </div>
+            
+            <div class="bill-card">
+                <div class="bill-icon">💧</div>
+                <h3 data-en="Water Bill" data-hi="पानी का बिल">Water Bill</h3>
+                <button class="bill-btn" onclick="payBill('water')" data-en="Pay Now" data-hi="भुगतान करें">Pay Now</button>
+            </div>
+            
+            <div class="bill-card">
+                <div class="bill-icon">🏠</div>
+                <h3 data-en="Property Tax" data-hi="प्रॉपर्टी टैक्स">Property Tax</h3>
+                <button class="bill-btn" onclick="payBill('property')" data-en="Pay Now" data-hi="भुगतान करें">Pay Now</button>
+            </div>
+            
+            <div class="bill-card">
+                <div class="bill-icon">📱</div>
+                <h3 data-en="Mobile Bill" data-hi="मोबाइल बिल">Mobile Bill</h3>
+                <button class="bill-btn" onclick="payBill('mobile')" data-en="Pay Now" data-hi="भुगतान करें">Pay Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Documents Screen -->
+    <div id="documents-screen" class="screen">
+        <header class="screen-header">
+            <button class="back-btn" onclick="navigateTo('user-home')">←</button>
+            <h2 data-en="Documents & Status" data-hi="दस्तावेज़ और स्थिति">Documents & Status</h2>
+        </header>
+        
+        <div class="documents-status-container">
+            <div class="documents-section">
+                <h3 data-en="My Documents" data-hi="मेरे दस्तावेज़">My Documents</h3>
+                <div class="documents-grid">
+                    <div class="doc-card" onclick="viewDocument('aadhaar')" data-en="Aadhaar Card" data-hi="आधार कार्ड">Aadhaar Card</div>
+                    <div class="doc-card" onclick="viewDocument('pan')" data-en="PAN Card" data-hi="पैन कार्ड">PAN Card</div>
+                    <div class="doc-card" onclick="viewDocument('driving')" data-en="Driving License" data-hi="ड्राइविंग लाइसेंस">Driving License</div>
+                    <div class="doc-card" onclick="viewDocument('passport')" data-en="Passport" data-hi="पासपोर्ट">Passport</div>
+                    <div class="doc-card" onclick="viewDocument('voter')" data-en="Voter ID" data-hi="वोटर आईडी">Voter ID</div>
+                    <div class="doc-card" onclick="viewDocument('income')" data-en="Income Certificate" data-hi="आय प्रमाण पत्र">Income Certificate</div>
+                    <div class="doc-card" onclick="viewDocument('residence')" data-en="Residence Certificate" data-hi="निवास प्रमाण पत्र">Residence Certificate</div>
+                    <div class="doc-card upload-card" onclick="uploadDocument()" data-en="+ New Document" data-hi="+ नया दस्तावेज़">+ New Document</div>
+                </div>
+            </div>
+            
+            <div class="status-section">
+                <h3 data-en="Application Status" data-hi="आवेदन की स्थिति">Application Status</h3>
+                <div id="status-list" class="status-list">
+                    <!-- Status items will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Official Entry Screen -->
+    <div id="official-entry-screen" class="screen">
+        <header class="gov-header">
+            <div class="header-left">
+                <button class="back-btn" onclick="navigateTo('home')">←</button>
+                <h1 class="brand-name">GovConnect</h1>
+            </div>
+            <div class="header-right">
+                <button class="language-toggle" onclick="toggleLanguage()">
+                    <span>हिंदी</span>
+                </button>
+                <div class="profile-icon">👨‍💼</div>
+            </div>
+        </header>
+        
+        <div class="page-title">
+            <h2 data-en="Official Login" data-hi="अधिकारी प्रवेश">Official Login</h2>
+        </div>
+        
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchOfficialTab('official-login')">
+                    <span data-en="LOGIN" data-hi="लॉगिन">LOGIN</span>
+                </button>
+                <button class="auth-tab" onclick="switchOfficialTab('official-register')">
+                    <span data-en="REGISTER" data-hi="पंजीकरण">REGISTER</span>
+                </button>
+            </div>
+            
+            <!-- Official Login Form -->
+            <div id="official-login-form" class="auth-form active">
+                <div class="input-group">
+                    <label data-en="Employee ID" data-hi="कर्मचारी आईडी">Employee ID</label>
+                    <input type="text" id="official-id" data-placeholder-en="Enter employee ID" data-placeholder-hi="कर्मचारी आईडी दर्ज करें" placeholder="Enter employee ID">
+                </div>
+                <div class="input-group">
+                    <label data-en="Password" data-hi="पासवर्ड">Password</label>
+                    <input type="password" id="official-password" data-placeholder-en="Enter password" data-placeholder-hi="पासवर्ड दर्ज करें" placeholder="Enter password">
+                </div>
+                <button class="primary-btn" onclick="loginOfficial()">
+                    <span data-en="LOGIN" data-hi="लॉगिन करें">LOGIN</span>
+                </button>
+            </div>
+            
+            <!-- Official Registration Form -->
+            <div id="official-register-form" class="auth-form">
+                <div class="input-group">
+                    <label data-en="Full Name" data-hi="पूरा नाम">Full Name</label>
+                    <input type="text" id="official-name" data-placeholder-en="Enter full name" data-placeholder-hi="पूरा नाम दर्ज करें" placeholder="Enter full name">
+                </div>
+                <div class="input-group">
+                    <label data-en="Employee ID" data-hi="कर्मचारी आईडी">Employee ID</label>
+                    <input type="text" id="official-register-id" data-placeholder-en="Enter employee ID" data-placeholder-hi="कर्मचारी आईडी दर्ज करें" placeholder="Enter employee ID">
+                </div>
+                <div class="input-group">
+                    <label data-en="Department" data-hi="विभाग">Department</label>
+                    <select id="official-department">
+                        <option value="" data-en="Select Department" data-hi="विभाग चुनें">विभाग चुनें</option>
+                        <option value="water" data-en="Water Supply" data-hi="जल आपूर्ति">जल आपूर्ति</option>
+                        <option value="electricity" data-en="Electricity" data-hi="बिजली">बिजली</option>
+                        <option value="roads" data-en="Roads & Infrastructure" data-hi="सड़क और बुनियादी ढांचा">सड़क और बुनियादी ढांचा</option>
+                        <option value="health" data-en="Health Services" data-hi="स्वास्थ्य सेवाएं">स्वास्थ्य सेवाएं</option>
+                        <option value="education" data-en="Education" data-hi="शिक्षा">शिक्षा</option>
+                        <option value="waste" data-en="Waste Management" data-hi="कचरा प्रबंधन">कचरा प्रबंधन</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label data-en="Email" data-hi="ईमेल">Email</label>
+                    <input type="email" id="official-email" data-placeholder-en="Enter email" data-placeholder-hi="ईमेल दर्ज करें" placeholder="Enter email">
+                </div>
+                <div class="input-group">
+                    <label data-en="Password" data-hi="पासवर्ड">Password</label>
+                    <input type="password" id="official-register-password" data-placeholder-en="Create password" data-placeholder-hi="पासवर्ड बनाएं" placeholder="Create password">
+                </div>
+                <button class="primary-btn" onclick="registerOfficial()">
+                    <span data-en="REGISTER" data-hi="पंजीकरण करें">REGISTER</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Official Dashboard Screen -->
+    <div id="official-dashboard-screen" class="screen">
+        <header class="gov-header">
+            <div class="header-left">
+                <h1 class="brand-name">GovConnect</h1>
+                <span class="official-indicator">अधिकारी डैशबोर्ड</span>
+            </div>
+            <div class="header-right">
+                <button class="language-toggle" onclick="toggleLanguage()">
+                    <span>हिंदी</span>
+                </button>
+                <button class="logout-btn" onclick="logoutOfficial()">लॉग आउट</button>
+                <div class="profile-icon">👨‍💼</div>
+            </div>
+        </header>
+        
+        <div class="dashboard-content">
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <h3>कुल शिकायतें</h3>
+                    <div class="stat-number" id="total-complaints">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>लंबित शिकायतें</h3>
+                    <div class="stat-number" id="pending-complaints">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>हल की गई</h3>
+                    <div class="stat-number" id="resolved-complaints">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>प्रगति में</h3>
+                    <div class="stat-number" id="inprogress-complaints">0</div>
+                </div>
+            </div>
+            
+            <div class="complaints-management">
+                <h3>शिकायत प्रबंधन</h3>
+                <div class="complaint-filters">
+                    <button class="filter-btn active" onclick="filterComplaints('all')">सभी</button>
+                    <button class="filter-btn" onclick="filterComplaints('pending')">लंबित</button>
+                    <button class="filter-btn" onclick="filterComplaints('in-progress')">प्रगति में</button>
+                    <button class="filter-btn" onclick="filterComplaints('resolved')">हल की गई</button>
+                </div>
+                
+                <div id="official-complaints-list" class="official-complaints-list">
+                    <!-- Complaints will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voice Interface -->
+    <div id="voice-interface" class="voice-interface">
+        <div class="voice-content">
+            <div class="voice-animation">
+                <div class="voice-circle"></div>
+                <div class="voice-circle"></div>
+                <div class="voice-circle"></div>
+            </div>
+            <p>सुन रहा हूँ...</p>
+        </div>
+    </div>
+
+    <!-- Message Toast -->
+    <div id="message-toast" class="message-toast">
+        <span id="toast-message"></span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
